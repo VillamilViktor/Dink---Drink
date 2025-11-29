@@ -1,4 +1,3 @@
-// Import Firebase modules
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
 import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
@@ -17,29 +16,63 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// DOM elements
-const textarea = document.getElementById("test");
-const submitBtn = document.getElementById("submitBtn");
+// Form and error elements
+const form = document.querySelector("form");
+const errors = document.querySelectorAll(".error");
 
-// Auto-resize textarea
-textarea.addEventListener("input", () => {
-    textarea.style.height = "auto";
-    textarea.style.height = textarea.scrollHeight + "px";
-});
+form.addEventListener("submit", async function(event) {
+    event.preventDefault();
 
-// Submit button logic
-submitBtn.addEventListener("click", async () => {
-    const text = textarea.value;
+    errors.forEach(error => error.innerHTML = "");
 
-    console.log("User input:", text);
+    const nameValue = form.name.value.trim();
+    const emailValue = form.email.value.trim();
+    const numberValue = form.number.value.trim();
+    const messageValue = form.message.value.trim();
 
-    try {
-        await addDoc(collection(db, "messages"), {
-            content: text,
-            created_at: new Date()
-        });
-        console.log("Saved to Firebase!");
-    } catch (error) {
-        console.error("Error saving to Firebase:", error);
+    const namePattern = /^[A-Za-z\s]+$/;
+    const emailPattern = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    const numberPattern = /^09[0-9]{9}$/;
+    const messagePattern = /^.{5,127}$/;
+
+    let valid = true;
+
+    // VALIDATION
+    if (nameValue === "" || !namePattern.test(nameValue)) {
+        errors[0].innerHTML = "Enter a valid name.";
+        valid = false;
+    }
+    if (emailValue === "" || !emailPattern.test(emailValue)) {
+        errors[1].innerHTML = "Enter a valid email.";
+        valid = false;
+    }
+    if (numberValue === "" || !numberPattern.test(numberValue)) {
+        errors[2].innerHTML = "Phone must start with 09 and be 11 digits.";
+        valid = false;
+    }
+    if (messageValue === "" || !messagePattern.test(messageValue)) {
+        errors[3].innerHTML = "Message must be 5–127 characters.";
+        valid = false;
+    }
+
+    // If form is valid → SAVE TO FIREBASE
+    if (valid) {
+
+        try {
+            await addDoc(collection(db, "messages"), {
+                name: nameValue,
+                email: emailValue,
+                phone: numberValue,
+                message: messageValue,
+                created_at: new Date()
+            });
+
+            alert("Submitted successfully!");
+            form.reset();
+            console.log("Saved to Firebase!");
+
+        } catch (error) {
+            console.error("Error saving to Firebase:", error);
+        }
     }
 });

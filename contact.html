@@ -4,18 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us</title>
+    <link rel="stylesheet" href="bootstrap-5.3.8-dist/css/bootstrap.css">
     <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
+
     <header>
-        <h1>Test</h1>
-        <h1>Another Test</h1>
+        <h1>Contact Us</h1>
     </header>
 
-    <main></main>
+    <main>
+        <div class="form-container">
+            <form>
+
+        <input
+            type="text"
+            id="name"
+            name="name"
+            placeholder="Name"
+        /><small class="error"></small>
+        <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="email"
+        /><small class="error"></small><!--class for validating input-->
+        <input
+            type="number"
+            id="number"
+            name="number"
+            placeholder="Phone Number"
+        /><small class="error"></small>
+        <textarea
+        id="message"
+        name="message"
+        placeholder="Message"
+        ></textarea><small class="error"></small>
+        <span></span>
+        <button type="submit">Submit</button>
+            </form>
+        </div>
+    </main>
 
     <footer></footer>
-
-    <script src = "script.js"></script>
+<script type="module" src="script.js" defer></script>
 </body>
 </html>
+

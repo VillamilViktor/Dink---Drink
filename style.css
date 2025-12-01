@@ -9,7 +9,7 @@
 
 .Background {
   min-height: 100vh;               
-  background-image: url("images/bgpic.png");
+  background-image: url("images/bgpic.webp");
   background-repeat: repeat-y;    
   background-size: 100% auto;      
   background-position: center top; 
@@ -387,3 +387,4 @@ main section {
         font-size: clamp(0.75rem, 3vw, 0.95rem);
     }
  }
+
